@@ -13,6 +13,12 @@ watch_dir = "./src"
 [dev]
 local_protocol = "https"
 
+[vars]
+PRESHARED_AUTH_HEADER_KEY = "X-Custom-PSK"
+PRESHARED_AUTH_HEADER_VALUE = "mypresharedkey"
+BASIC_USER = "admin"
+BASIC_PASS = "admin"
+
 [[ d1_databases ]]
 binding = "DB"
 database_name = "bloqs_credentials"

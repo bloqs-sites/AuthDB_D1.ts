@@ -15,7 +15,42 @@ export default class Router {
 
   /** Handles Requests */
   async route(req: Request): Promise<Response> {
-    const { segments, method } = extractReq(req);
+    const { segments, method, protocol } = extractReq(req);
+
+    if (
+      "https:" !== protocol || "https" !== req.headers.get("x-forwarded-proto")
+    ) {
+      return new Response("Please use a HTTPS connection.", {
+        status: 401,
+        headers: headers({ "Content-Type": "text/plain" }),
+      });
+    }
+
+    if (req.headers.has("Authorization")) {
+      const { response, credentials } = this.#basicAuthentication(req);
+
+      const failed = response ?? this.#verifyCredentials(credentials);
+
+      if (failed) {
+        return failed;
+      }
+    } else {
+      return new Response("You need to login.", {
+        status: 401,
+        headers: headers({
+          "WWW-Authenticate": 'Basic realm="my scope", charset="UTF-8"',
+        }),
+      });
+    }
+
+    const psk = req.headers.get(this.#env.PRESHARED_AUTH_HEADER_KEY);
+
+    if (psk !== this.#env.PRESHARED_AUTH_HEADER_VALUE) {
+      return new Response("Sorry, you have supplied an invalid key.", {
+        status: 403,
+        headers: headers({ "Content-Type": "text/plain" }),
+      });
+    }
 
     switch (segments[0]) {
       case "DDL":
@@ -138,5 +173,66 @@ export default class Router {
         columns.join("`, `")
       }\`) VALUES ${value_bindings};`,
     ).bind(...values());
+  }
+
+  #verifyCredentials(
+    { user, pass }: { user: string; pass: string },
+  ): Response | null {
+    if (this.#env.BASIC_USER !== user || this.#env.BASIC_PASS !== pass) {
+      return new Response("Invalid credentials.", {
+        status: 401,
+        headers: headers({ "Content-Type": "text/plain" }),
+      });
+    }
+
+    return null;
+  }
+
+  #basicAuthentication(request: Request) {
+    const Authorization = request.headers.get("Authorization");
+
+    if (!Authorization) {
+      return {
+        response: new Response("No authorization header.", {
+          status: 400,
+          headers: headers({ "Content-Type": "text/plain" }),
+        }),
+      } as const;
+    }
+
+    const [scheme, encoded] = Authorization.split(" ");
+
+    if (!encoded || scheme !== "Basic") {
+      return {
+        response: new Response("Malformed authorization header.", {
+          status: 400,
+          headers: headers({ "Content-Type": "text/plain" }),
+        }),
+      } as const;
+    }
+
+    const buffer = Uint8Array.from(
+      atob(encoded),
+      (character) => character.charCodeAt(0),
+    );
+    const decoded = new TextDecoder().decode(buffer).normalize();
+
+    const index = decoded.indexOf(":");
+
+    if (index === -1 || /[\0-\x1F\x7F]/.test(decoded)) {
+      return {
+        response: new Response("Invalid authorization value.", {
+          status: 400,
+          headers: headers({ "Content-Type": "text/plain" }),
+        }),
+      } as const;
+    }
+
+    return {
+      credentials: {
+        user: decoded.substring(0, index),
+        pass: decoded.substring(index + 1),
+      },
+    } as const;
   }
 }

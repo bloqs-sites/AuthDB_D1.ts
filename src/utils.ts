@@ -2,16 +2,18 @@
  * Extracts some useful info from a Request object.
  */
 export const extractReq = (req: Request) => {
-  const { pathname } = new URL(req.url);
+  const { pathname, protocol } = new URL(req.url);
   const [, ...segments] = pathname.split(/\//);
   const { method } = req;
-  return { pathname, segments, method } as const;
+  return { pathname, segments, method, protocol } as const;
 };
 
 /**
  * CORS and other default headers.
  */
-const DEFAULT_HEADERS = new Headers({});
+const DEFAULT_HEADERS = new Headers({
+  "Cache-Control": "no-store",
+});
 
 /**
  * An Headers object factory method that encorporates the default headers to
