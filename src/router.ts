@@ -19,9 +19,45 @@ export default class Router {
 
     switch (segments[0]) {
       case "DDL":
-        break;
+        return this.#schema(segments.slice(1), method, req.json);
       case "DML":
-        return this.#crud(segments.slice(1), method, req);
+        return this.#crud(segments.slice(1), method, req.json);
+    }
+
+    return new Response(null, { status: 404 });
+  }
+
+  async #schema(
+    params: string[],
+    method: string,
+    json: <T>() => Promise<T>,
+  ): Promise<Response> {
+    if (method == "POST") {
+      switch (params[0]) {
+        case "table":
+          const body = await json<{
+            name: string;
+            columns: string[];
+          }[]>();
+
+          async function* created(router: Router): AsyncGenerator<D1Result> {
+            for (const { name, columns } of body) {
+              yield router.#table(name, columns);
+            }
+          }
+
+          for await (const { success, error } of created(this)) {
+            if (!success) {
+              return handleRtrErr(error);
+            }
+          }
+
+          return new Response(null, { status: 204 });
+        case "view":
+          break;
+        case "index":
+          break;
+      }
     }
 
     return new Response(null, { status: 404 });
@@ -30,7 +66,7 @@ export default class Router {
   async #crud(
     params: string[],
     method: string,
-    req: Request,
+    json: <T>() => Promise<T>,
   ): Promise<Response> {
     switch (method) {
       case "GET": {
@@ -46,7 +82,7 @@ export default class Router {
       }
       case "POST": {
         const table = params[0];
-        const body = await req.json<{
+        const body = await json<{
           columns: string[];
           rows: { [_: string]: any }[];
         }>();
@@ -64,6 +100,12 @@ export default class Router {
     }
 
     return new Response(null, { status: 404 });
+  }
+
+  #table(name: string, columns: string[]): Promise<D1Result> {
+    return this.#env.DB.prepare(
+      `CREATE TABLE IF NOT EXISTS \`${name}\`(${columns.join(", ")});`,
+    ).run();
   }
 
   #select(table: string, columns: string[]): D1PreparedStatement {
