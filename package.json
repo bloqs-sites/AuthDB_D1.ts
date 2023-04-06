@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "authdb_d1.ts",
+  "version": "0.0.0",
+  "description": "",
+  "keywords": [
+  ],
+  "homepage": "https://github.com/bloqs-sites/AuthDB_D1.ts#readme",
+  "bugs": {
+    "url": "https://github.com/bloqs-sites/AuthDB_D1.ts/issues"
+  },
+  "license": "",
+  "contributors": [
+    {
+      "name": "João Augusto Torres",
+      "email": "torres.dev@disroot.org",
+      "url": "https://github.com/torres-developer/"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bloqs-sites/AuthDB_D1.ts"
+  },
+  "scripts": {
+    "init": "wrangler d1 execute credentials --file=./resources/schema.sql",
+    "init-local": "wrangler d1 execute credentials --local --file=./resources/schema.sql",
+    "deploy": "wrangler publish src/index.ts",
+    "local": "wrangler dev src/index.ts --local --persist",
+    "start-stackblitz": "WRANGLER_SEND_METRICS=false wrangler dev src/index.ts --local --persist"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20230404.0",
+    "typescript": "^5.0.3",
+    "wrangler": "^2.14.0"
+  }
+}

@@ -1,0 +1,19 @@
+name = "bloqs_credentials_db"
+main = "./src/index.ts"
+workers_dev = true
+tsconfig = "./tsconfig.json"
+minify = true
+
+usage_model = "unbound"
+
+[build]
+command = "yarn"
+watch_dir = "./src"
+
+[dev]
+local_protocol = "https"
+
+[[ d1_databases ]]
+binding = "DB"
+database_name = "bloqs_credentials"
+database_id = "id"
