@@ -4,7 +4,7 @@ workers_dev = true
 tsconfig = "./tsconfig.json"
 minify = true
 
-usage_model = "unbound"
+usage_model = "bundled"
 
 [build]
 command = "pnpm up"
