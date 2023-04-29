@@ -1,9 +1,17 @@
 export default interface Env {
-  readonly DB: D1Database;
+    readonly USE_TOKENS: boolean;
+    readonly USE_SCH: boolean;
+    readonly USE_CNF: boolean;
 
-  readonly PRESHARED_AUTH_HEADER_KEY: string;
-  readonly PRESHARED_AUTH_HEADER_VALUE: string;
+    readonly BLOQS_TOKENS: KVNamespace;
 
-  readonly BASIC_USER: string;
-  readonly BASIC_PASS: string;
+    readonly TOKENS_ALLOWED_ORIGINS: string[];
+
+    readonly TOKENS_PRESHARED_AUTH_HEADER_KEY: string;
+    readonly TOKENS_PRESHARED_AUTH_HEADER_VALUE: string;
+
+    readonly TOKENS_BASIC_USER: string;
+    readonly TOKENS_BASIC_PASS: string;
+
+    readonly BLOQS_CREDENTIALS: D1Database;
 }

@@ -2,15 +2,21 @@ import Env from "./Env.js";
 import Router from "./router.js";
 import { headers } from "./utils.js";
 
-export default {
-  async fetch(req: Request, env: Env, context: FetchEvent): Promise<Response> {
+const handler: ExportedHandler<Env> = {
+  async fetch(
+    req: Request,
+    env: Env,
+    ctx: ExecutionContext,
+  ): Promise<Response> {
     try {
-      return new Router(env, context).route(req);
+      return new Router(env, ctx).route(req);
     } catch (e) {
       return handleRtrErr(e);
     }
   },
 };
+
+export default handler;
 
 export async function handleRtrErr(e: any): Promise<Response> {
   let error = "Internal Error";

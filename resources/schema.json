@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://black-silence-a2dc.torres-dev.workers.dev/",
+  "title": "Bloqs instance configuration",
+  "description": "The configuration file for various parts of a Bloqs instance.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "title": "The instance name",
+      "description": "TODO",
+      "type": "string"
+    },
+    "auth": {
+      "title": "TODO",
+      "description": "Configuration for the authorization micro service.",
+      "type": "object",
+      "properties": {
+        "domain": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string",
+          "format": "idn-hostname",
+          "examples": [
+            "auth.example.org",
+            "example.org"
+          ]
+        },
+        "signInPath": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string",
+          "default": "/",
+          "format": "/^\\/(?:.+\\/?)*$/iu",
+          "examples": [
+            "/",
+            "/auth/"
+          ]
+        },
+        "signInTypeQueryParam": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string",
+          "default": "type"
+        },
+        "supported": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "array",
+          "default": [],
+          "additionalItems": true,
+          "items": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string",
+            "enum": [
+              "basic"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "token": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "object",
+          "default": {},
+          "properties": {
+            "exp": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "integer",
+              "default": 900000
+            }
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "domain",
+        "supported"
+      ]
+    },
+    "domains": {
+      "title": "whitelisted/blacklisted domains",
+      "description": "TODO",
+      "default": {},
+      "type": "object",
+      "oneOf": [
+        {
+          "properties": {
+            "whitelist": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "idn-hostname"
+              }
+            }
+          },
+          "required": [
+            "whitelist"
+          ]
+        },
+        {
+          "properties": {
+            "blacklist": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "idn-hostname"
+              }
+            }
+          },
+          "required": [
+            "blacklist"
+          ]
+        }
+      ]
+    },
+    "scheme": {
+      "title": "TODO",
+      "description": "TODO",
+      "type": "object",
+      "default": {},
+      "additionalItems": true,
+      "properties": {
+        "light": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "object",
+          "required": [
+            "60",
+            "30",
+            "10"
+          ],
+          "properties": {
+            "60": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            },
+            "30": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            },
+            "10": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            }
+          }
+        },
+        "dark": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "object",
+          "required": [
+            "60",
+            "30",
+            "10"
+          ],
+          "properties": {
+            "60": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            },
+            "30": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            },
+            "10": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "name",
+    "auth"
+  ]
+}

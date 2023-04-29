@@ -1,4 +1,4 @@
-name = "bloqs_credentials_db"
+name = "bloqs"
 main = "./src/index.ts"
 workers_dev = true
 tsconfig = "./tsconfig.json"
@@ -7,19 +7,28 @@ minify = true
 usage_model = "unbound"
 
 [build]
-command = "yarn"
+command = "pnpm up"
 watch_dir = "./src"
 
 [dev]
 local_protocol = "https"
 
 [vars]
-PRESHARED_AUTH_HEADER_KEY = "X-Custom-PSK"
-PRESHARED_AUTH_HEADER_VALUE = "mypresharedkey"
-BASIC_USER = "admin"
-BASIC_PASS = "admin"
+USE_TOKENS = false
+USE_SCH = false
+USE_CNF = false
+
+TOKENS_ALLOWED_ORIGINS = []
+TOKENS_PRESHARED_AUTH_HEADER_KEY = "X-Custom-PSK"
+TOKENS_PRESHARED_AUTH_HEADER_VALUE = "mypresharedkey"
+TOKENS_BASIC_USER = "admin"
+TOKENS_BASIC_PASS = "admin"
+
+kv_namespaces = [
+    { binding = "BLOQS_TOKENS", id = "id", preview_id = "preview_id" }
+]
 
 [[ d1_databases ]]
-binding = "DB"
+binding = "BLOQS_CREDENTIALS"
 database_name = "bloqs_credentials"
 database_id = "id"

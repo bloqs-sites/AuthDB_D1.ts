@@ -1,13 +1,12 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "authdb_d1.ts",
+  "name": "bloqs_db.ts",
   "version": "0.0.0",
   "description": "",
-  "keywords": [
-  ],
-  "homepage": "https://github.com/bloqs-sites/AuthDB_D1.ts#readme",
+  "keywords": [],
+  "homepage": "https://github.com/bloqs-sites/cf-BloqsDB.ts#readme",
   "bugs": {
-    "url": "https://github.com/bloqs-sites/AuthDB_D1.ts/issues"
+    "url": "https://github.com/bloqs-sites/cf-BloqsDB.ts/issues"
   },
   "license": "",
   "contributors": [
@@ -19,7 +18,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/bloqs-sites/AuthDB_D1.ts"
+    "url": "https://github.com/bloqs-sites/cf-BloqsDB.ts"
   },
   "scripts": {
     "init": "wrangler d1 execute credentials --file=./resources/schema.sql",
@@ -28,9 +27,14 @@
     "local": "wrangler dev src/index.ts --local --persist",
     "start-stackblitz": "WRANGLER_SEND_METRICS=false wrangler dev src/index.ts --local --persist"
   },
+  "type": "module",
+  "dependencies": {
+    "cf-db-api": "^0.2.0"
+  },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230404.0",
-    "typescript": "^5.0.3",
-    "wrangler": "^2.14.0"
-  }
+    "typescript": "^5.0.4",
+    "wrangler": "^2.17.0"
+  },
+  "packageManager": "pnpm@8.2.0"
 }

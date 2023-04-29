@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "noEmit": true,
     "module": "esnext",
@@ -9,6 +10,7 @@
     "preserveConstEnums": true,
     "moduleResolution": "node",
     "sourceMap": true,
+		"resolveJsonModule": true,
     "types": ["@cloudflare/workers-types"]
   },
   "include": ["src"],
