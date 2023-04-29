@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://black-silence-a2dc.torres-dev.workers.dev/",
+  "$id": "https://bloqs.torres-dev.workers.dev/sch",
   "title": "Bloqs instance configuration",
   "description": "The configuration file for various parts of a Bloqs instance.",
   "type": "object",
