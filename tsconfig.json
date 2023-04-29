@@ -10,7 +10,8 @@
     "preserveConstEnums": true,
     "moduleResolution": "node",
     "sourceMap": true,
-		"resolveJsonModule": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "types": ["@cloudflare/workers-types"]
   },
   "include": ["src"],
