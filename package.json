@@ -1,12 +1,12 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "bloqs_db.ts",
+  "name": "cf-worker.ts",
   "version": "0.0.0",
   "description": "",
   "keywords": [],
-  "homepage": "https://github.com/bloqs-sites/cf-BloqsDB.ts#readme",
+  "homepage": "https://github.com/bloqs-sites/cf-worker.ts#readme",
   "bugs": {
-    "url": "https://github.com/bloqs-sites/cf-BloqsDB.ts/issues"
+    "url": "https://github.com/bloqs-sites/cf-worker.ts/issues"
   },
   "license": "",
   "contributors": [
@@ -18,7 +18,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/bloqs-sites/cf-BloqsDB.ts"
+    "url": "https://github.com/bloqs-sites/cf-worker.ts"
   },
   "scripts": {
     "init": "wrangler d1 execute credentials --file=./resources/schema.sql",
