@@ -1,1 +1,10 @@
-{}
+{
+  "$schema": "https://bloqs.torres-dev.workers.dev/sch",
+  "name": "Bloqs",
+  "auth": {
+    "domain": "https://bloqsenjin.vercel.app/api/auth/",
+    "supported": [
+      "basic"
+    ]
+  }
+}
